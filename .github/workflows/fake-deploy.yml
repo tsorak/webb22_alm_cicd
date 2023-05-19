@@ -35,6 +35,8 @@ jobs:
       - run: |
           echo "NODE_ENV=$NODE_ENV"
           echo "Deploying branch ${{ github.head_ref }} to the test server"
+          echo "Image used is 'ghcr.io/${{ github.repository }}:${{ github.head_ref }}'"
+        # Image used is 'ghcr.io/tsorak/webb22-alm-cicd:feature-branch'
       - name: Deployed
         uses: actions/setup-node@v3
         with:
