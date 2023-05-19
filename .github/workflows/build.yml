@@ -1,0 +1,52 @@
+name: Build Docker image
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+env:
+  PUBLISH_PATH: ghcr.io/${{ github.repository }}
+  IMAGE_NAME: webb22-alm-cicd
+
+jobs:
+  build:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    env:
+      TAG: "latest"
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: |
+          echo "Building Docker image..."
+          docker build -t $IMAGE_NAME .
+
+      - name: Tag Docker image
+        run: |
+          echo "Tagging Docker image..."
+          if [[ ${{ github.event_name }} == 'pull_request' ]]; then
+            TAG=$(echo ${{ github.head_ref }} | tr / -)
+            echo "TAG=$(echo ${{ github.head_ref }} | tr / -)" >> $GITHUB_ENV
+          fi
+          echo TAG is $TAG
+          echo event_name is ${{ github.event_name }}
+          docker tag $IMAGE_NAME $PUBLISH_PATH:$TAG
+
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Docker image
+        run: |
+          echo "Pushing to ${{ env.PUBLISH_PATH }}:${{ env.TAG }}"
+          docker push ${{ env.PUBLISH_PATH }}:${{ env.TAG }}
