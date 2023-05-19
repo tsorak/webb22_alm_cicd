@@ -1,0 +1,42 @@
+name: Fake Deploy
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  deploy-prod:
+    name: Deploy Prod
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+    steps:
+      - name: Deploy
+        run: |
+          echo "NODE_ENV=$NODE_ENV"
+          echo "Deploying to production"
+      - name: Deployed
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Echo NODE_ENV
+        run: echo "console.log('[NODE]', 'NODE_ENV', 'is set to', process.env.NODE_ENV)" | NODE_ENV=$NODE_ENV node
+
+  deploy-dev:
+    name: Deploy Dev
+    if: github.ref != 'refs/heads/master'
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: development
+    steps:
+      - run: |
+          echo "NODE_ENV=$NODE_ENV"
+          echo "Deploying branch ${{ github.head_ref }} to the test server"
+      - name: Deployed
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Echo NODE_ENV
+        run: echo "console.log('[NODE]', 'NODE_ENV', 'is set to', process.env.NODE_ENV)" | NODE_ENV=$NODE_ENV node
