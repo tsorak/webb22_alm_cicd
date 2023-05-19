@@ -22,7 +22,8 @@ jobs:
         with:
           node-version: 18
       - name: Echo NODE_ENV
-        run: echo "console.log('[NODE]', 'NODE_ENV', 'is set to', process.env.NODE_ENV)" | NODE_ENV=$NODE_ENV node
+        run: |
+          echo "console.log('[NODE]', 'NODE_ENV', 'is set to', process.env.NODE_ENV); if (process.env.NODE_ENV !== 'production') { throw new Error('NODE_ENV is not production') }" | NODE_ENV=$NODE_ENV node
 
   deploy-dev:
     name: Deploy Dev
@@ -39,4 +40,5 @@ jobs:
         with:
           node-version: 18
       - name: Echo NODE_ENV
-        run: echo "console.log('[NODE]', 'NODE_ENV', 'is set to', process.env.NODE_ENV)" | NODE_ENV=$NODE_ENV node
+        run: |
+          echo "console.log('[NODE]', 'NODE_ENV', 'is set to', process.env.NODE_ENV); if (process.env.NODE_ENV !== 'development') { throw new Error('NODE_ENV is not development') }" | NODE_ENV=$NODE_ENV node
