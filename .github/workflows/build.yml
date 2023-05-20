@@ -9,13 +9,12 @@ on:
 env:
   PUBLISH_PATH: ghcr.io/${{ github.repository }}
   IMAGE_NAME: webb22-alm-cicd
+  TAG: "latest"
 
 jobs:
   build:
     name: Build and publish
     runs-on: ubuntu-latest
-    env:
-      TAG: "latest"
     permissions:
       contents: read
       packages: write
@@ -50,3 +49,23 @@ jobs:
         run: |
           echo "Pushing to ${{ env.PUBLISH_PATH }}:${{ env.TAG }}"
           docker push ${{ env.PUBLISH_PATH }}:${{ env.TAG }}
+
+  dockerised-integration-tests:
+    name: Dockerised integration tests
+    runs-on: ubuntu-latest
+    needs: build
+    services:
+      start-app:
+        image: ghcr.io/${{ github.repository }}:${{ contains('latest', github.head_ref) && 'latest' || github.head_ref }}
+        ports:
+          - 8080:8080
+    steps:
+      - uses: actions/checkout@v3
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - name: Cache dependencies
+        run: deno cache http-test/deps.ts
+      - name: Run tests
+        run: |
+          deno test -A http-test --parallel
