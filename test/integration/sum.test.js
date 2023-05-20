@@ -1,6 +1,6 @@
 const request = require("supertest");
 
-const app = require("../src/server.js");
+const app = require("../../src/server.js");
 
 describe("GET /sum", () => {
   test("400 by default", async () => {
