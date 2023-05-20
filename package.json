@@ -8,6 +8,8 @@
     "dev": "node --watch src/index.js",
     "start": "node src/index.js",
     "test": "jest",
+    "test-unit": "jest unit",
+    "test-integration": "jest integration",
     "lint": "eslint . --ext .js --max-warnings 0"
   },
   "author": "",
