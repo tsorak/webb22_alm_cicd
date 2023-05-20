@@ -27,7 +27,6 @@
     "eslint-plugin-node": "^11.1.0"
   },
   "jest": {
-    "collectCoverage": true,
     "collectCoverageFrom": [ "src/**/*.js", "!src/index.js" ],
     "coverageThreshold": {
       "global": {
