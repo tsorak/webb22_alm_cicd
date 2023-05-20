@@ -1,3 +1,5 @@
+const math = require("../math.js");
+
 function sumController(req, res) {
   let { a, b } = req.query;
   [a, b] = [Number(a), Number(b)];
@@ -9,12 +11,8 @@ function sumController(req, res) {
     return;
   }
 
-  const result = sum(a, b);
+  const result = math.sum(a, b);
   res.json({ sum: result });
-}
-
-function sum(a, b) {
-  return a + b;
 }
 
 module.exports = sumController;
