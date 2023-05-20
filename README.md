@@ -15,3 +15,5 @@ Requirement 9 is solved by [tagging](https://github.com/tsorak/webb22_alm_cicd/b
 The image can be pulled using `ghcr.io/tsorak/webb22-alm-cicd:BRANCH-NAME`
 
 [Example](https://github.com/tsorak/webb22_alm_cicd/blob/c294dd1f143a35e49ef00e2b59af651a277c583d/.github/workflows/fake-deploy.yml#L39)
+
+LUL
