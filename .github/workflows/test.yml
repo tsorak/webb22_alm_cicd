@@ -18,7 +18,7 @@ jobs:
       - name: Install modules
         run: npm install
       - name: Run Jest
-        run: npm run test -- --reporters=jest-junit
+        run: npm run test -- --reporters=jest-junit --coverage
       - name: Upload Report
         uses: actions/upload-artifact@v3
         with:
