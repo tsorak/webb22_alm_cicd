@@ -1,8 +1,14 @@
 # ALM CI/CD
 
-## Workflows
+## Testing pipeline demonstration
 
-Testing pipeline demonstration: [PR #8](https://github.com/tsorak/webb22_alm_cicd/pull/8)
+Prevents merging pull requests when tests fail or coverage quota is not met.
+
+[Pull Request #15](https://github.com/tsorak/webb22_alm_cicd/pull/15)
+
+[A Specific Workflow Run](https://github.com/tsorak/webb22_alm_cicd/actions/runs/5037478637/jobs/9034338546)
+
+## Workflows
 
 ### Requirement 4
 
